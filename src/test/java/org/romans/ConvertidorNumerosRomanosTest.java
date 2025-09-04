@@ -4,74 +4,76 @@ import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.romans.exceptions.InvalidArabicNumberException;
 import org.romans.exceptions.InvalidRomanNumeralException;
+import org.romans.service.ConvertidorNumerosImpl;
+import org.romans.service.ConvertidorNumerosService;
 
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.junit.jupiter.api.Assertions.assertThrows;
 
-class ConvertidorNumerosRomanosTest {
+class ConvertidorNumerosServiceTest {
 
-    private ConvertidorNumerosRomanos convertidor;
+    private ConvertidorNumerosService convertidor;
 
     @BeforeEach
     void setUp() {
-        convertidor = new ConvertidorNumerosRomanos();
+        convertidor = new ConvertidorNumerosImpl();
     }
 
     @Test
-    void testARomanoCasosBasicos() {
-        assertThat(convertidor.aRomano(1)).isEqualTo("I");
-        assertThat(convertidor.aRomano(5)).isEqualTo("V");
-        assertThat(convertidor.aRomano(10)).isEqualTo("X");
+    void testConvertirArabigoARomanoCasosBasicos() {
+        assertThat(convertidor.convertirArabigoARomano(1)).isEqualTo("I");
+        assertThat(convertidor.convertirArabigoARomano(5)).isEqualTo("V");
+        assertThat(convertidor.convertirArabigoARomano(10)).isEqualTo("X");
     }
 
     @Test
-    void testARomanoCasosCombinados() {
-        assertThat(convertidor.aRomano(4)).isEqualTo("IV");
-        assertThat(convertidor.aRomano(9)).isEqualTo("IX");
-        assertThat(convertidor.aRomano(21)).isEqualTo("XXI");
-        assertThat(convertidor.aRomano(50)).isEqualTo("L");
-        assertThat(convertidor.aRomano(100)).isEqualTo("C");
-        assertThat(convertidor.aRomano(500)).isEqualTo("D");
-        assertThat(convertidor.aRomano(1000)).isEqualTo("M");
+    void testConvertirArabigoARomanoCasosCombinados() {
+        assertThat(convertidor.convertirArabigoARomano(4)).isEqualTo("IV");
+        assertThat(convertidor.convertirArabigoARomano(9)).isEqualTo("IX");
+        assertThat(convertidor.convertirArabigoARomano(21)).isEqualTo("XXI");
+        assertThat(convertidor.convertirArabigoARomano(50)).isEqualTo("L");
+        assertThat(convertidor.convertirArabigoARomano(100)).isEqualTo("C");
+        assertThat(convertidor.convertirArabigoARomano(500)).isEqualTo("D");
+        assertThat(convertidor.convertirArabigoARomano(1000)).isEqualTo("M");
     }
 
     @Test
-    void testARomanoBorderCases() {
-        assertThat(convertidor.aRomano(1)).isEqualTo("I");
-        assertThat(convertidor.aRomano(3999)).isEqualTo("MMMCMXCIX");
+    void testConvertirArabigoARomanoBorderCases() {
+        assertThat(convertidor.convertirArabigoARomano(1)).isEqualTo("I");
+        assertThat(convertidor.convertirArabigoARomano(3999)).isEqualTo("MMMCMXCIX");
     }
 
     @Test
-    void testARomanoInvalidos() {
-        assertThrows(InvalidArabicNumberException.class, () -> convertidor.aRomano(0));
-        assertThrows(InvalidArabicNumberException.class, () -> convertidor.aRomano(4000));
-        assertThrows(InvalidArabicNumberException.class, () -> convertidor.aRomano(null));
+    void testConvertirArabigoARomanoInvalidos() {
+        assertThrows(InvalidArabicNumberException.class, () -> convertidor.convertirArabigoARomano(0));
+        assertThrows(InvalidArabicNumberException.class, () -> convertidor.convertirArabigoARomano(4000));
+        assertThrows(InvalidArabicNumberException.class, () -> convertidor.convertirArabigoARomano(null));
     }
 
     @Test
-    void testAArabicoCasosBasicos() {
-        assertThat(convertidor.aArabico("I")).isEqualTo(1);
-        assertThat(convertidor.aArabico("V")).isEqualTo(5);
-        assertThat(convertidor.aArabico("X")).isEqualTo(10);
+    void testConvertirRomanoAArabigoCasosBasicos() {
+        assertThat(convertidor.convertirRomanoAArabigo("I")).isEqualTo(1);
+        assertThat(convertidor.convertirRomanoAArabigo("V")).isEqualTo(5);
+        assertThat(convertidor.convertirRomanoAArabigo("X")).isEqualTo(10);
     }
 
     @Test
-    void testAArabicoCasosCombinados() {
-        assertThat(convertidor.aArabico("IV")).isEqualTo(4);
-        assertThat(convertidor.aArabico("IX")).isEqualTo(9);
-        assertThat(convertidor.aArabico("XXI")).isEqualTo(21);
-        assertThat(convertidor.aArabico("L")).isEqualTo(50);
-        assertThat(convertidor.aArabico("C")).isEqualTo(100);
-        assertThat(convertidor.aArabico("D")).isEqualTo(500);
-        assertThat(convertidor.aArabico("M")).isEqualTo(1000);
-        assertThat(convertidor.aArabico("MMMCMXCIX")).isEqualTo(3999);
+    void testConvertirRomanoAArabigoCasosCombinados() {
+        assertThat(convertidor.convertirRomanoAArabigo("IV")).isEqualTo(4);
+        assertThat(convertidor.convertirRomanoAArabigo("IX")).isEqualTo(9);
+        assertThat(convertidor.convertirRomanoAArabigo("XXI")).isEqualTo(21);
+        assertThat(convertidor.convertirRomanoAArabigo("L")).isEqualTo(50);
+        assertThat(convertidor.convertirRomanoAArabigo("C")).isEqualTo(100);
+        assertThat(convertidor.convertirRomanoAArabigo("D")).isEqualTo(500);
+        assertThat(convertidor.convertirRomanoAArabigo("M")).isEqualTo(1000);
+        assertThat(convertidor.convertirRomanoAArabigo("MMMCMXCIX")).isEqualTo(3999);
     }
 
     @Test
-    void testAArabicoInvalidos() {
-        assertThrows(InvalidRomanNumeralException.class, () -> convertidor.aArabico(null));
-        assertThrows(InvalidRomanNumeralException.class, () -> convertidor.aArabico(""));
-        assertThrows(InvalidRomanNumeralException.class, () -> convertidor.aArabico("ABC"));
-        assertThrows(InvalidRomanNumeralException.class, () -> convertidor.aArabico("IIII"));
+    void testConvertirRomanoAArabigoInvalidos() {
+        assertThrows(InvalidRomanNumeralException.class, () -> convertidor.convertirRomanoAArabigo(null));
+        assertThrows(InvalidRomanNumeralException.class, () -> convertidor.convertirRomanoAArabigo(""));
+        assertThrows(InvalidRomanNumeralException.class, () -> convertidor.convertirRomanoAArabigo("ABC"));
+        assertThrows(InvalidRomanNumeralException.class, () -> convertidor.convertirRomanoAArabigo("IIII"));
     }
 }

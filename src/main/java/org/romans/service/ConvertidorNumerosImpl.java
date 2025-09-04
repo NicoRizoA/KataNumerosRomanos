@@ -1,45 +1,46 @@
-package org.romans;
+package org.romans.service;
 
 import org.romans.exceptions.InvalidArabicNumberException;
 import org.romans.exceptions.InvalidRomanNumeralException;
+import org.springframework.stereotype.Service;
 
 import java.util.Map;
 
-public class ConvertidorNumerosRomanos {
+@Service
+public class ConvertidorNumerosImpl implements ConvertidorNumerosService {
 
-    public String aRomano(Integer numeroEntrada){
-
-        validarNumeroArabico(numeroEntrada);
+    @Override
+    public String convertirArabigoARomano(Integer numero){
+        validarNumeroArabico(numero);
 
         int[] valores = {1000, 900, 500, 400, 100, 90, 50, 40, 10, 9, 5, 4, 1};
         String[] simbolos = {"M","CM","D","CD","C","XC","L","XL","X","IX","V","IV","I"};
 
-        return convertirARomano(numeroEntrada, valores, simbolos);
+        return convertirARomano(numero, valores, simbolos);
     }
 
-    private void validarNumeroArabico(Integer numeroEntrada){
-        if (numeroEntrada == null) {
+    private void validarNumeroArabico(Integer numero){
+        if (numero == null) {
             throw new InvalidArabicNumberException("Número de entrada no puede ser null.");
         }
-        if (numeroEntrada <= 0 || numeroEntrada > 3999) {
-            throw new InvalidArabicNumberException("Número fuera del rango permitido: " + numeroEntrada);
+        if (numero <= 0 || numero > 3999) {
+            throw new InvalidArabicNumberException("Número fuera del rango permitido: " + numero);
         }
     }
 
-    private String convertirARomano(Integer numeroEntrada, int[] valores, String[] simbolos){
+    private String convertirARomano(Integer numero, int[] valores, String[] simbolos){
         StringBuilder result = new StringBuilder();
-
         for (int i = 0; i < valores.length; i++) {
-            while (numeroEntrada >= valores[i]) {
-                numeroEntrada -= valores[i];
+            while (numero >= valores[i]) {
+                numero -= valores[i];
                 result.append(simbolos[i]);
             }
         }
         return result.toString();
     }
 
-    public Integer aArabico(String numeroRomanoEntrada){
-
+    @Override
+    public int convertirRomanoAArabigo(String numeroRomanoEntrada){
         validarNumeroRomano(numeroRomanoEntrada);
 
         Map<Character, Integer> mapa = Map.of(
@@ -52,7 +53,7 @@ public class ConvertidorNumerosRomanos {
                 'M', 1000
         );
 
-        return convertirAArabico(numeroRomanoEntrada, mapa);
+        return convertirAArabigo(numeroRomanoEntrada, mapa);
     }
 
     private void validarNumeroRomano(String numeroRomanoEntrada){
@@ -70,8 +71,7 @@ public class ConvertidorNumerosRomanos {
         }
     }
 
-    private Integer convertirAArabico(String numeroRomanoEntrada, Map<Character, Integer> mapa){
-
+    private int convertirAArabigo(String numeroRomanoEntrada, Map<Character, Integer> mapa){
         int total = 0;
         int prev = 0;
 
@@ -92,5 +92,4 @@ public class ConvertidorNumerosRomanos {
 
         return total;
     }
-
 }
