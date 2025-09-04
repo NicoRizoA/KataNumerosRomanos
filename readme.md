@@ -83,6 +83,57 @@ Entradas inválidas y verificar excepciones.
 
 * Ejecutar clase de prueba desde consola con: mvn compile exec:java -Dexec.mainClass="org.romans.Main"
 
+## Fase 2
+
+Esta fase agrega endpoints REST para convertir números árabes a romanos y viceversa, usando Spring Boot 3, Java 17 y Lombok.
+También se incorporan DTOs para respuestas consistentes y tests de integración con Spring Boot Test.
+
+Nuevos endpoint tipo GET:
+
+/api/romanos/arabigo-a-romano?valor={numero}
+
+Ejemplo de respuesta:
+
+```bash
+{
+  "entrada": "21",
+  "salida": "XXI"
+}
+```
+
+/api/romanos/romano-a-arabigo?valor={numeroRomano}
+
+Ejemplo de respuesta:
+
+```bash
+{
+  "entrada": "XXI",
+  "salida": "21"
+}
+```
+
+Cómo ejecutar: 
+
+1. Compilar y ejecutar con Maven:
+
+```bash
+mvn clean install
+mvn spring-boot:run
+```
+
+2. Acceder a los endpoints vía Postman o navegador:
+
+```bash
+http://localhost:8080/api/romanos/arabigo-a-romano?valor=21
+http://localhost:8080/api/romanos/romano-a-arabigo?valor=XXI
+```
+
+Se incluyen tests de integración para los endpoints REST usando TestRestTemplate.
+Ejecutar tests con: 
+```bash
+mvn test
+```
+
 ## Clonar el proyecto
 
 Clonar usando HTTPS:
